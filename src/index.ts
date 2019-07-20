@@ -147,9 +147,9 @@ function $addWheelListener(
     }
 
     listener({
-      dx: Math.ceil(e.deltaX * scale || 0),
-      dy: Math.ceil(e.deltaY * scale || 0),
-      dz: Math.ceil(e.deltaZ * scale || 0),
+      dx: e.deltaX * scale || 0,
+      dy: e.deltaY * scale || 0,
+      dz: e.deltaZ * scale || 0,
       originalEvent: e,
       type,
     })
