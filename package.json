@@ -1,6 +1,6 @@
 {
   "name": "@livelybone/mouse-wheel",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "A module for bind mouse-wheel event. typescript supported",
   "main": "./lib/umd/index.js",
   "module": "./lib/es/index.js",
