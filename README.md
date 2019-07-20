@@ -46,6 +46,12 @@ unbind = bind(listener, options)
 unbind()
 ```
 
+Use in html, see what your can use in [CDN: unpkg](https://unpkg.com/@livelybone/mouse-wheel/lib/umd/)
+```html
+<-- use what you want -->
+<script src="https://unpkg.com/@livelybone/mouse-wheel/lib/umd/<--module-->.js"></script>
+```
+
 ## Params
 
 ## listener
@@ -85,10 +91,4 @@ interface BindOptions {
   interval?: number
   useCapture?: boolean
 }
-```
-
-Use in html, see what your can use in [CDN: unpkg](https://unpkg.com/@livelybone/mouse-wheel/lib/umd/)
-```html
-<-- use what you want -->
-<script src="https://unpkg.com/@livelybone/mouse-wheel/lib/umd/<--module-->.js"></script>
 ```
