@@ -1,5 +1,6 @@
 declare type CustomEventType = 'wheelStart' | 'wheelMove' | 'wheelEnd'
 declare type CustomListener = (ev: CustomWheelEvent) => any
+
 interface CustomWheelEvent {
   dx: number
   dy: number
@@ -14,6 +15,7 @@ interface CustomWheelEvent {
       }
   type: CustomEventType
 }
+
 interface BindOptions {
   /**
    * The critical interval between two event
@@ -31,13 +33,17 @@ interface BindOptions {
   interval?: number
   useCapture?: boolean
 }
+
 interface UnbindFn {
   (): void
 }
+
 interface BindFn {
   (el: Element, listener: CustomListener, options?: BindOptions): UnbindFn
+
   (listener: CustomListener, options?: BindOptions): UnbindFn
 }
+
 declare const bind: BindFn
 
 export { bind }
