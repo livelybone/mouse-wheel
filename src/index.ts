@@ -47,33 +47,36 @@ interface BindFn {
 }
 
 let prefix: string = ''
-let $addEventListener: 'addEventListener' | 'attachEvent'
-let $removeEventListener: 'removeEventListener' | 'detachEvent'
-let support: string
+let $addEventListener: 'addEventListener' | 'attachEvent' = 'addEventListener'
+let $removeEventListener: 'removeEventListener' | 'detachEvent' =
+  'removeEventListener'
+let support: string = 'wheel'
 
-// detect event model
-if (window.addEventListener) {
-  $addEventListener = 'addEventListener'
-  $removeEventListener = 'removeEventListener'
-} else {
-  $addEventListener = 'attachEvent'
-  $removeEventListener = 'detachEvent'
-  prefix = 'on'
-}
+if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+  // detect event model
+  if (window.addEventListener) {
+    $addEventListener = 'addEventListener'
+    $removeEventListener = 'removeEventListener'
+  } else {
+    $addEventListener = 'attachEvent'
+    $removeEventListener = 'detachEvent'
+    prefix = 'on'
+  }
 
-// detect available wheel event
-if ('onwheel' in document.createElement('div')) {
-  // "Wheel" is supported by most higher versions of browsers
-  // 各个厂商的高版本浏览器都支持"wheel"
-  support = 'wheel'
-} else if (window.onmousewheel !== undefined) {
-  // Webkit and IE always support "mousewheel"
-  // Webkit 和 IE一定支持"mousewheel"
-  support = 'mousewheel'
-} else {
-  // Low version of firefox
-  // 低版本firefox
-  support = 'DOMMouseScroll'
+  // detect available wheel event
+  if ('onwheel' in document.createElement('div')) {
+    // "Wheel" is supported by most higher versions of browsers
+    // 各个厂商的高版本浏览器都支持"wheel"
+    support = 'wheel'
+  } else if (window.onmousewheel !== undefined) {
+    // Webkit and IE always support "mousewheel"
+    // Webkit 和 IE一定支持"mousewheel"
+    support = 'mousewheel'
+  } else {
+    // Low version of firefox
+    // 低版本firefox
+    support = 'DOMMouseScroll'
+  }
 }
 
 function dealOriginalEvent(ev: any): WheelEvent {

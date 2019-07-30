@@ -30,12 +30,8 @@ export default {
       ],
       plugins:
         process.env.NODE_ENV === 'test'
-          ? [
-              '@babel/plugin-transform-runtime',
-              '@babel/plugin-external-helpers',
-              'istanbul',
-            ]
-          : ['@babel/plugin-external-helpers'],
+          ? ['@babel/plugin-transform-runtime', 'istanbul']
+          : [],
     }),
   ],
 }
