@@ -7,24 +7,36 @@ module.exports = {
     'commonjs': true,
     'node': true,
   },
-  'extends': ['eslint:recommended', 'airbnb-base'],
+  'extends': [
+    'eslint:recommended',
+    'airbnb-base',
+    'plugin:prettier/recommended',
+  ],
   'rules': {
-    'quote-props': [2, 'consistent'],
-    'import/prefer-default-export': [0],
-    'linebreak-style': 'off',
-    'global-require': 'off',
-    'object-shorthand': [2, 'always', { 'avoidQuotes': false }],
-    'object-curly-newline': 'off',
-    'camelcase': 'off',
-    'no-mixed-operators': 'off',
-    'semi': 'off',
-    'indent': 'off',
-    'implicit-arrow-linebreak': 'off',
-    'operator-linebreak': 'off',
-    'arrow-parens': 'off',
-    'no-confusing-arrow': 'off',
-    'radix': 'off',
-    'prettier/prettier': 'error',
+    'no-useless-constructor': 0,
+    'no-undef': 0,
+    'import/prefer-default-export': 0,
+    '@typescript-eslint/no-unused-vars': 1,
+    'prettier/prettier': 2,
+    'no-console': [2, { allow: ["warn", "error"] }],
+    'no-shadow': 2,
+    'import/extensions': [
+      2,
+      'ignorePackages',
+      {
+        'js': 'never',
+        'jsx': 'never',
+        'ts': 'never',
+        'tsx': 'never'
+      }
+    ],
   },
-  'plugins': ['typescript', 'prettier'],
+  'plugins': ['@typescript-eslint', 'prettier'],
+  'settings': {
+    'import/resolver': {
+      'node': {
+        'extensions': ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
 }

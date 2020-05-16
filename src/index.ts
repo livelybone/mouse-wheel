@@ -1,16 +1,18 @@
-type CustomEventType = 'wheelStart' | 'wheelMove' | 'wheelEnd'
+export type CustomEventType = 'wheelStart' | 'wheelMove' | 'wheelEnd'
 
-type CustomListener = (ev: CustomWheelEvent) => any
-type OperateListener = (
-  eventType: string,
-  listener: (ev: WheelEvent) => any,
-  useCapture?: boolean,
-) => any
+export type CustomListener = (ev: CustomWheelEvent) => any
 
-interface CustomWheelEvent {
+export interface CustomWheelEvent {
+  /**
+   * Pixel delta
+   * */
   dx: number
   dy: number
   dz: number
+  /**
+   * Delta time
+   * */
+  dTime: number
   /**
    * `wheelEnd` event data only have prop timeStamp
    * */
@@ -18,16 +20,16 @@ interface CustomWheelEvent {
   type: CustomEventType
 }
 
-interface BindOptions {
+export interface BindOptions {
   /**
-   * The critical interval between two event
+   * The threshold interval between two event
    * used to determine whether the event should be ignored
    *
    * Default to 0
    * */
   debounceTime?: number
   /**
-   * The critical interval between two event
+   * The threshold interval between two event
    * used to determine whether the event type is wheelStart/wheelEnd
    *
    * Default to 500
@@ -36,11 +38,11 @@ interface BindOptions {
   useCapture?: boolean
 }
 
-interface UnbindFn {
+export interface UnbindFn {
   (): void
 }
 
-interface BindFn {
+export interface BindFn {
   (el: Element, listener: CustomListener, options?: BindOptions): UnbindFn
 
   (listener: CustomListener, options?: BindOptions): UnbindFn
@@ -54,7 +56,7 @@ let support: string = 'wheel'
 
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
   // detect event model
-  if (window.addEventListener) {
+  if ('addEventListener' in window) {
     $addEventListener = 'addEventListener'
     $removeEventListener = 'removeEventListener'
   } else {
@@ -117,7 +119,7 @@ function dealOriginalEvent(ev: any): WheelEvent {
 function getExHeight(elem: Element | Window) {
   const el = elem instanceof Window ? document.documentElement : elem
   const fontSize = window.getComputedStyle(el).fontSize || '16px'
-  return parseInt(fontSize) / 2
+  return parseInt(fontSize, 10)
 }
 
 function $addWheelListener(
@@ -142,6 +144,7 @@ function $addWheelListener(
     if (timeDelta < options.debounceTime) return
     if (timeDelta > options.interval) type = 'wheelStart'
 
+    // deltaMode: https://developer.mozilla.org/zh-CN/docs/Web/API/WheelEvent/deltaMode
     let scale = 1
     if (e.deltaMode === 1) {
       scale = getExHeight(element)
@@ -149,10 +152,12 @@ function $addWheelListener(
       scale = window.innerHeight
     }
 
+    const dTime = type !== 'wheelStart' ? timeDelta : 0
     listener({
       dx: e.deltaX * scale || 0,
       dy: e.deltaY * scale || 0,
       dz: e.deltaZ * scale || 0,
+      dTime,
       originalEvent: e,
       type,
     })
@@ -164,12 +169,18 @@ function $addWheelListener(
         dx: 0,
         dy: 0,
         dz: 0,
+        dTime: dTime + options.interval,
         originalEvent: { timeStamp: e.timeStamp + options.interval },
         type: 'wheelEnd',
       })
     }, options.interval)
   }
 
+  type OperateListener = (
+    eventType: string,
+    listener: (ev: WheelEvent) => any,
+    useCapture?: boolean,
+  ) => any
   const addListener: OperateListener = (element as any)[$addEventListener]
   addListener(prefix + eventName, $listener, options.useCapture)
 
