@@ -39,11 +39,11 @@ npm i -S @livelybone/mouse-wheel
 
 ## Usage
 ```typescript
-import { bind, BindOptions, CustomListener, CustomListener } from '@livelybone/mouse-wheel'
+import { bind, BindOptions, CustomListener, CustomWheelEvent } from '@livelybone/mouse-wheel'
 
 let unbind
 
-const listener: CustomListener = (event: CustomListener) => {}
+const listener: CustomListener = (event: CustomWheelEvent) => {}
 
 const options: BindOptions = {}
 
